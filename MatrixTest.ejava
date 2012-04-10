@@ -1,0 +1,198 @@
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class MatrixTest {
+
+	double[][] ident4;
+	double[][] ident3;
+	double[][] ident2;
+	Matrix m1;
+	double[] vect2;
+	double[] vect3;
+	double[] vect4;
+	@Before
+	public void setUp() throws Exception {
+		 ident4 = new double[4][4];
+		ident4[0][0] = 1.0f;
+		ident4[1][1] = 1.0f;
+		ident4[2][2] = 1.0f;
+		ident4[3][3] = 1.0f;
+		ident3 = new double[3][3];
+		ident3[0][0] = 1.0f;
+		ident3[1][1] = 1.0f;
+		ident3[2][2] = 1.0f;
+		ident2 = new double[2][2];
+		ident2[0][0] = 1.0f;
+		ident2[1][1] = 1.0f;
+		
+		m1 = new Matrix(4,4);
+		m1.values[0][0] = 0;
+		m1.values[0][1] = 1;
+		m1.values[0][2] = 2;
+		m1.values[0][3] = 3;
+		m1.values[1][0] = 4;
+		m1.values[1][1] = 5;
+		m1.values[1][2] = 6;
+		m1.values[1][3] = 7;
+		m1.values[2][0] = 8;
+		m1.values[2][1] = 9;
+		m1.values[2][2] = 10;
+		m1.values[2][3] = 11;
+		m1.values[3][0] = 12;
+		m1.values[3][1] = 13;
+		m1.values[3][2] = 14;
+		m1.values[3][3] = 15;
+		
+		vect2 = new double[2];
+		vect2[0] = 1.0f;
+		vect2[1] = 2.0f;
+		
+		vect3 = new double[3];
+		vect3[0] = 1.0f;
+		vect3[1] = 2.0f;
+		vect3[2] = 3.0f;
+		
+		vect4 = new double[4];
+		vect4[0] = 1.0f;
+		vect4[1] = 2.0f;
+		vect4[2] = 3.0f;
+		vect4[3] = 4.0f;
+ 	}
+	
+	boolean comparedoubles(double[][] f1, double[][] f2)
+	{
+		if (f1.length != f2.length)
+			return false;
+		if (f1[0].length != f2[0].length)
+			return false;
+		for (int x = 0; x < f1.length; x++)
+		{
+			for (int y = 0; y < f1[0].length; y++)
+			{
+				if (f1[x][y] != f2[x][y])
+					return false;
+			}
+		}
+		return true;
+	}
+	boolean comparedoubles(double[] f1, double[] f2)
+	{
+		if (f1.length != f2.length)
+			return false;
+
+		for (int x = 0; x < f1.length; x++)
+		{
+				if (f1[x] != f2[x])
+					return false;
+		}
+		return true;
+	}
+	public String doublesString(double[] f1)
+	{
+		StringBuilder bld = new StringBuilder();
+		for (int x = 0; x < f1.length; x++)
+		{
+				bld.append(f1[x] + " ");
+			bld.append("\n");
+		}
+		return bld.toString();
+	}
+
+	@Test
+	public void testIdentity() {
+		Matrix identm4 = Matrix.identity();
+		assertTrue(comparedoubles(ident4,identm4.values));
+		System.out.println(identm4);
+	}
+
+	@Test
+	public void testTranspose() {
+		Matrix identm4 = Matrix.identity();
+		Matrix identm4T = Matrix.transpose(identm4);
+		System.out.println(identm4T);
+		
+		Matrix m1T = Matrix.transpose(m1);
+		System.out.println(m1);
+		System.out.println(m1T);
+
+	}
+
+	@Test
+	public void testMultiplyMatrixMatrix() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testMultiplyMatrixdoubleArray() {
+		flipAxis();
+		swapAxis();
+		
+	}
+	@Test 
+	public void testTranslate()
+	{
+		
+	}
+	
+	@Test 
+	public void testScale()
+	{
+		
+	}
+	
+	private void swapAxis()
+	{
+		Matrix swap2 = new Matrix(2,2);
+		swap2.values[0][1] = 1f;
+		swap2.values[1][0] = 1f;
+		Matrix swap3 = new Matrix(3,3);
+		swap3.values[0][2] = 1f;
+		swap3.values[1][1] = 1f;
+		swap3.values[2][0] = 1f;
+		Matrix swap4 = new Matrix(4,4);
+		swap4.values[0][3] = 1f;
+		swap4.values[1][2] = 1f;
+		swap4.values[2][1] = 1f;
+		swap4.values[3][0] = 1f;
+		System.out.println("Swap 2: \n" + swap2);
+		System.out.println("Swap 3: \n" + swap3);
+		System.out.println("Swap 4: \n" + swap4);
+		double[] swapped2 = Matrix.multiply(swap2, vect2);
+		System.out.println("Swapped 2: \n" + doublesString(swapped2));
+		
+		double[] swapped3 = Matrix.multiply(swap3, vect3);
+		System.out.println("Swapped 3: \n" + doublesString(swapped3));
+		
+		double[]  swapped4 = Matrix.multiply(swap4, vect4);
+		System.out.println("Swapped 4: \n" + doublesString(swapped4));
+	}
+	private void flipAxis()
+	{
+		Matrix flip2 = new Matrix(2,2);
+		flip2.values[0][0] = 1f;
+		flip2.values[1][1] = -1f;
+		Matrix flip3 = new Matrix(3,3);
+		flip3.values[0][0] = 1f;
+		flip3.values[1][1] = 1f;
+		flip3.values[2][2] = -1f;
+		Matrix flip4 = new Matrix(4,4);
+		flip4.values[0][0] = 1f;
+		flip4.values[1][1] = 1f;
+		flip4.values[2][2] = 1f;
+		flip4.values[3][3] = -1f;
+		System.out.println("Flip 2: \n" + flip2);
+		System.out.println("Flip 3: \n" + flip3);
+		System.out.println("Flip 4: \n" + flip4);
+		double[] flipped2 = Matrix.multiply(flip2, vect2);
+		System.out.println("Flipped 2: \n" + doublesString(flipped2));
+		
+		double[] flipped3 = Matrix.multiply(flip3, vect3);
+		System.out.println("Flipped 3: \n" + doublesString(flipped3));
+		
+		double[] flipped4 = Matrix.multiply(flip4, vect4);
+		System.out.println("Flipped 4: \n" + doublesString(flipped4));
+	}
+
+}
